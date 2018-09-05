@@ -41,5 +41,6 @@ public class AppBinder extends AbstractBinder {
         })
         .to(EntityManager.class)
         .in(Singleton.class);
+
     }
 }
