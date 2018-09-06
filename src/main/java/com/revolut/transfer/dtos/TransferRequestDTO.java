@@ -6,7 +6,7 @@ public class TransferRequestDTO {
 
     private Long toAccount;
 
-    private Long amount;
+    private Double amount;
 
     public void setFromAccount(Long fromAccount) {
         this.fromAccount = fromAccount;
@@ -16,7 +16,7 @@ public class TransferRequestDTO {
         this.toAccount = toAccount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -28,7 +28,7 @@ public class TransferRequestDTO {
         return toAccount;
     }
 
-    public Long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 }

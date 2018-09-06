@@ -1,1 +1,2 @@
-INSERT INTO accounts (ID) VALUES (1);
+INSERT INTO accounts (id, balance) VALUES (1,1000);
+INSERT INTO accounts (id, balance) VALUES (2,10000);

@@ -1,5 +1,6 @@
 package com.revolut.transfer;
 
+import com.revolut.transfer.controllers.AccountsController;
 import com.revolut.transfer.controllers.TransferController;
 import com.revolut.transfer.di.AppConfig;
 import org.eclipse.jetty.server.Server;
@@ -23,6 +24,7 @@ public class App {
         jerseyServlet.setInitOrder(0);
         jerseyServlet.setInitParameter(
                 "jersey.config.server.provider.classnames",
+                AccountsController.class.getCanonicalName() + "," +
                 TransferController.class.getCanonicalName());
         jerseyServlet.setInitParameter(
                 "javax.ws.rs.Application",
