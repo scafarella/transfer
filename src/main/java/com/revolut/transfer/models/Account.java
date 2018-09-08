@@ -12,7 +12,7 @@ public class Account implements Serializable {
     private Long id;
 
     @Column
-    private Double balance;
+    private Long balance;
 
     public Long getId() {
         return id;
@@ -22,11 +22,11 @@ public class Account implements Serializable {
         this.id = id;
     }
 
-    public Double getBalance() {
+    public Long getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(Long balance) {
         this.balance = balance;
     }
 }

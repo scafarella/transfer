@@ -2,7 +2,6 @@ package com.revolut.transfer.daos;
 
 import com.revolut.transfer.models.Account;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class AccountDAOImpl extends AbstractDAO implements AccountDAO {
@@ -13,23 +12,17 @@ public class AccountDAOImpl extends AbstractDAO implements AccountDAO {
     }
 
     @Override
-    public void add(Account account, Double amount) {
-        Double balance = account.getBalance();
-        BigDecimal balanceDecimal = BigDecimal.valueOf(balance);
-        BigDecimal amountDecimal = BigDecimal.valueOf(amount);
-        BigDecimal updatedBalanceDecimal = balanceDecimal.add(amountDecimal);
-        account.setBalance(updatedBalanceDecimal.doubleValue());
+    public void add(Account account, Long amount) {
+        Long balance = account.getBalance();
+        account.setBalance(Long.sum(balance, amount));
         getEntityManager().merge(account);
 
     }
 
     @Override
-    public void subtract(Account account, Double amount) {
-        Double balance = account.getBalance();
-        BigDecimal balanceDecimal = BigDecimal.valueOf(balance);
-        BigDecimal amountDecimal = BigDecimal.valueOf(amount);
-        BigDecimal updatedBalanceDecimal = balanceDecimal.subtract(amountDecimal);
-        account.setBalance(updatedBalanceDecimal.doubleValue());
+    public void subtract(Account account, Long amount) {
+        Long balance = account.getBalance();
+        account.setBalance(balance - amount);
         getEntityManager().merge(account);
     }
 

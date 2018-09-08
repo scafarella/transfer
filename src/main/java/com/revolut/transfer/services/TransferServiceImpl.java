@@ -8,8 +8,6 @@ import com.revolut.transfer.models.Account;
 
 import javax.inject.Inject;
 import javax.persistence.EntityTransaction;
-import javax.transaction.Transaction;
-import javax.transaction.Transactional;
 import java.util.Objects;
 
 import static com.revolut.transfer.Constants.ACCOUNT_NOT_VALID;
@@ -21,29 +19,28 @@ public class TransferServiceImpl implements TransferService{
     private AccountDAO accountDAO;
 
     @Override
-    public void transfer(final Long fromAccountNumber, final Long toAccountNumber, final Double amount) throws AccountNotFoundException, BalanceNotEnoughException {
-
-        final EntityTransaction transaction = accountDAO.getTransaction();
+    public void transfer(final Long fromAccountNumber, final Long toAccountNumber, final Long amount) throws AccountNotFoundException, BalanceNotEnoughException {
+        final EntityTransaction transaction = getAccountDAO().getTransaction();
 
         try {
             transaction.begin();
 
-            Account fromAccount = accountDAO.findByID(fromAccountNumber);
+            Account fromAccount = getAccountDAO().findByID(fromAccountNumber);
             if(Objects.isNull(fromAccount)){
                 throw new AccountNotFoundException(ACCOUNT_NOT_VALID);
             }
 
-            Account toAccount = accountDAO.findByID(toAccountNumber);
+            Account toAccount = getAccountDAO().findByID(toAccountNumber);
             if(Objects.isNull(toAccount)) {
                 throw new AccountNotFoundException(ACCOUNT_NOT_VALID);
             }
 
-            if(fromAccount.getBalance().compareTo(amount) < 0){
+            if(Long.compare(fromAccount.getBalance(), amount) < 0){
                 throw new BalanceNotEnoughException(BALANCE_NOT_ENOUGH);
             }
 
-            accountDAO.add(toAccount, amount);
-            accountDAO.subtract(fromAccount, amount);
+            getAccountDAO().add(toAccount, amount);
+            getAccountDAO().subtract(fromAccount, amount);
 
             transaction.commit();
         }catch (Exception e ) {
@@ -53,5 +50,9 @@ public class TransferServiceImpl implements TransferService{
         }
 
         return;
+    }
+
+    public AccountDAO getAccountDAO() {
+        return accountDAO;
     }
 }

@@ -25,9 +25,9 @@ public class TransferRequestDTOValidator {
         }
     }
 
-    private static void validateAmount(Double amount) throws TransferRequestDTONotValidException {
+    private static void validateAmount(Long amount) throws TransferRequestDTONotValidException {
 
-        if(Objects.isNull(amount) || amount <= 0){
+        if(Objects.isNull(amount) || amount.longValue() <= 0){
             throw new TransferRequestDTONotValidException(AMOUNT_NOT_VALID);
         }
     }

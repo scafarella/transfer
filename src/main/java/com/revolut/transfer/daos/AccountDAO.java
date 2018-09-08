@@ -7,9 +7,9 @@ import java.util.List;
 public interface AccountDAO extends DAO{
     Account findByID(Long id);
 
-    void add(Account toAccount, Double amount);
+    void add(Account toAccount, Long amount);
 
-    void subtract(Account fromAccount, Double amount);
+    void subtract(Account fromAccount, Long amount);
 
     List<Account> findAll();
 }

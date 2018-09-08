@@ -4,7 +4,6 @@ import com.revolut.transfer.controllers.TransferController;
 import com.revolut.transfer.dtos.TransferRequestDTO;
 import com.revolut.transfer.dtos.TransferResponseDTO;
 import com.revolut.transfer.exceptions.AccountNotFoundException;
-import com.revolut.transfer.exceptions.BalanceNotEnoughException;
 import com.revolut.transfer.services.TransferService;
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -20,7 +19,6 @@ import javax.ws.rs.core.Response;
 
 import static com.revolut.transfer.Constants.*;
 import static junit.framework.TestCase.assertTrue;
-import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -34,7 +32,7 @@ public class TransferControllerTest  extends JerseyTest {
     @Before
     public void setup() {
         try {
-            doNothing().when(transferService).transfer(anyLong(),anyLong(), anyDouble());
+            doNothing().when(transferService).transfer(anyLong(),anyLong(), anyLong());
         } catch (Exception e) {
 
         }
@@ -65,7 +63,7 @@ public class TransferControllerTest  extends JerseyTest {
     @Test
     public void shouldReturnStatusOK() {
         TransferRequestDTO transferRequestDTO = new TransferRequestDTO();
-        transferRequestDTO.setAmount(10d);
+        transferRequestDTO.setAmount(10l);
         transferRequestDTO.setFromAccount(112l);
         transferRequestDTO.setToAccount(111l);
 
@@ -79,7 +77,7 @@ public class TransferControllerTest  extends JerseyTest {
     @Test
     public void shouldReturnErrorWhenAccountIsNotValid() {
         TransferRequestDTO transferRequestDTO = new TransferRequestDTO();
-        transferRequestDTO.setAmount(10d);
+        transferRequestDTO.setAmount(10l);
         transferRequestDTO.setFromAccount(null);
         transferRequestDTO.setToAccount(111l);
 
@@ -94,7 +92,7 @@ public class TransferControllerTest  extends JerseyTest {
     @Test
     public void shouldReturnErrorWhenAmountIsNotValid() {
         TransferRequestDTO transferRequestDTO = new TransferRequestDTO();
-        transferRequestDTO.setAmount(0d);
+        transferRequestDTO.setAmount(0l);
         transferRequestDTO.setFromAccount(112l);
         transferRequestDTO.setToAccount(111l);
 
@@ -109,7 +107,7 @@ public class TransferControllerTest  extends JerseyTest {
     @Test
     public void shouldReturnErrorWhenSameAccount() {
         TransferRequestDTO transferRequestDTO = new TransferRequestDTO();
-        transferRequestDTO.setAmount(10d);
+        transferRequestDTO.setAmount(10l);
         transferRequestDTO.setFromAccount(111l);
         transferRequestDTO.setToAccount(111l);
 
@@ -124,14 +122,14 @@ public class TransferControllerTest  extends JerseyTest {
     @Test
     public void shouldReturnErrorWhenAccountNotExists() {
         TransferRequestDTO transferRequestDTO = new TransferRequestDTO();
-        transferRequestDTO.setAmount(10d);
+        transferRequestDTO.setAmount(10l);
         transferRequestDTO.setFromAccount(ACCOUNT_NUMBER_NOT_VALID);
         transferRequestDTO.setToAccount(114l);
 
         try {
             doThrow(new AccountNotFoundException(ACCOUNT_NOT_VALID))
                     .when(transferService)
-                    .transfer(ACCOUNT_NUMBER_NOT_VALID, 114l, 10d);
+                    .transfer(ACCOUNT_NUMBER_NOT_VALID, 114l, 10l);
         } catch (Exception e) {
 
         }
